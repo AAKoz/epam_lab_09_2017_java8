@@ -30,7 +30,8 @@ public class FunctionCombinationExercise {
     // validateFirstNameAndLastName: (Person -> boolean, Person -> boolean) -> (Person -> boolean)
     private Predicate<Person> validateFirstNameAndLastName(Predicate<Person> t1, Predicate<Person> t2) {
         return p -> t1.test(p) && t2.test(p);
-    }
+        }
+
 
     @Test
     public void personHasNotEmptyLastNameAndFirstName1() {
@@ -88,4 +89,5 @@ public class FunctionCombinationExercise {
         assertFalse(validate.test(new Person("", "b", 0)));
         assertFalse(validate.test(new Person("a", "", 0)));
     }
+
 }
