@@ -10,49 +10,54 @@ import java.util.stream.StreamSupport;
 @Fork(1)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
-@Measurement(iterations = 5, time = 1)
-@State(Scope.Benchmark)
+@Warmup(iterations = 5, time = 3)
+@Measurement(iterations = 5, time = 3)
 public class ArrayIntBenchmark {
 
-    @Param({"10000000"})
+    @Param({"100000"})
     public int length;
 
     public int[] array;
 
     @Setup
     public void setup() {
-        array = ThreadLocalRandom.current().ints(length).toArray();
+        array = new int[length];
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = ThreadLocalRandom.current().nextInt();
+        }
     }
 
 
     @Benchmark
-    public long baselineSequential() {
+    public long baiseline_seq() {
         return Arrays.stream(array)
-                     .sequential()
-                     .asLongStream()
-                     .sum();
+                .sequential()
+                .asLongStream()
+                .sum();
     }
 
     @Benchmark
-    public long baiselineParallel() {
+    public long baiseline_par() {
         return Arrays.stream(array)
-                     .parallel()
-                     .asLongStream()
-                     .sum();
+                .parallel()
+                .asLongStream()
+                .sum();
     }
 
     @Benchmark
-    public long arrayIntSpliteratorSeq() {
-        return StreamSupport.intStream(new IntArraySpliterator(array), false)
-                            .asLongStream()
-                            .sum();
+    public long test_seq() {
+        final boolean parallel = false;
+        return StreamSupport.intStream(new ArrayExample.IntArraySpliterator(array), parallel)
+                .asLongStream()
+                .sum();
     }
 
     @Benchmark
-    public long arrayIntSpliteratorParallel() {
-        return StreamSupport.intStream(new IntArraySpliterator(array), true)
-                            .asLongStream()
-                            .sum();
+    public long test_par() {
+        final boolean parallel = true;
+        return StreamSupport.intStream(new ArrayExample.IntArraySpliterator(array), parallel)
+                .asLongStream()
+                .sum();
     }
 }
