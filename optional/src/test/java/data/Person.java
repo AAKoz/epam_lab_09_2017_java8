@@ -12,7 +12,7 @@ public class Person implements Comparable<Person>, Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-}
+    }
 
     public static Person create(String firstName, String lastName, int age) {
         return new Person(firstName, lastName, age);
