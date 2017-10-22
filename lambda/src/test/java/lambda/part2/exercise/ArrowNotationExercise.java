@@ -18,7 +18,7 @@ public class ArrowNotationExercise {
 
         assertEquals(Integer.valueOf(33), getAge.apply(new Person("", "", 33)));
     }
-  
+
     private static boolean sameAge(Person p1, Person p2) {
         return (p1.getAge() == p2.getAge());
     }
@@ -35,23 +35,22 @@ public class ArrowNotationExercise {
 
     // TODO
     // getFullName: Person -> String
-
     private static String getFullName(Person p) {
         return p.getFirstName() + " " + p.getLastName();
     }
 
-
     // TODO
     // ageOfPersonWithTheLongestFullName: (Person -> String) -> ((Person, Person) -> int)
     //
-  @Test
+
+    @Test
     public void getAgeOfPersonWithTheLongestFullName() {
         // Person -> String
         final Function<Person, String> getFullName = ArrowNotationExercise::getFullName;
 
 
         final BiFunction<Person, Person, Integer> ageOfPersonWithTheLongestFullName =
-             (p1, p2) -> (getFullName.apply(p1)).length() > (getFullName.apply(p2)).length() ? p1.getAge() : p2.getAge();
+                (p1, p2) -> (getFullName.apply(p1)).length() > (getFullName.apply(p2)).length() ? p1.getAge() : p2.getAge();
 
         assertEquals(
                 Integer.valueOf(1),

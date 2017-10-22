@@ -30,7 +30,7 @@ public class FunctionCombinationExercise {
     // validateFirstNameAndLastName: (Person -> boolean, Person -> boolean) -> (Person -> boolean)
     private Predicate<Person> validateFirstNameAndLastName(Predicate<Person> t1, Predicate<Person> t2) {
         return p -> t1.test(p) && t2.test(p);
-        }
+    }
 
 
     @Test

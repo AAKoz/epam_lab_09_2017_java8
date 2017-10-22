@@ -108,4 +108,3 @@ public class FilterMap {
         assertEquals(Arrays.asList("100", "110"), result);
     }
 }
-
