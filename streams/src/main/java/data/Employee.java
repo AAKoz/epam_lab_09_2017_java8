@@ -26,7 +26,7 @@ public class Employee {
         return new Employee(person, h);
     }
 
-    public Person getPerson() {
+    public Person getPerson(Employee this) {
         return person;
     }
 
@@ -54,4 +54,5 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(person, jobHistory);
     }
+
 }

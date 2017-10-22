@@ -6,8 +6,9 @@ import data.Person;
 import org.junit.Test;
 
 import java.util.*;
-import java.util.stream.Collector;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,9 +38,11 @@ public class StreamsExercise1 {
                                 new JobHistoryEntry(2, "dev", "google")
                         )));
 
-        // all persons with experience in epam
+        Predicate<Employee> workedInEpam = employee -> employee.getJobHistory()
+                .stream()
+                .anyMatch(history -> "epam".equals(history.getEmployer()));
         List<Person> epamEmployees = employees.stream()
-                .filter(e -> e.getJobHistory().stream().anyMatch(history -> "epam".equals(history.getEmployer())))
+                .filter(workedInEpam)
                 .map(Employee::getPerson)
                 .collect(Collectors.toList());
 
@@ -73,11 +76,15 @@ public class StreamsExercise1 {
                         Arrays.asList(
                                 new JobHistoryEntry(2, "dev", "google")
                         )));
-        // all persons with first experience in epam
+
+        Predicate<Employee> startedFromEpam = employee -> !employee.getJobHistory().isEmpty()
+                && "epam".equals(employee.getJobHistory().get(0).getEmployer());
+
         List<Person> epamEmployees = employees.stream()
-                .filter(e -> !e.getJobHistory().isEmpty() && "epam".equals(e.getJobHistory().get(0).getEmployer()))
+                .filter(startedFromEpam)
                 .map(Employee::getPerson)
                 .collect(Collectors.toList());
+
         assertEquals(Arrays.asList(
                 new Person("John", "Galt", 20),
                 new Person("John", "White", 22)),
@@ -108,28 +115,14 @@ public class StreamsExercise1 {
                                 new JobHistoryEntry(2, "dev", "google")
                         )));
 
-        List<Person> epamEmployees = employees.stream()
-                .filter(e -> e.getJobHistory().stream().anyMatch(history -> "epam".equals(history.getEmployer())))
-                .map(Employee::getPerson)
-                .collect(Collectors.toList());
-        // sum
-        int result = employees.stream()
-                .unordered()
-                .flatMap(e -> e.getJobHistory().stream())
-                .filter(jh -> "epam".equals(jh.getEmployer()))
-                .reduce(0, (value, jh) -> value + jh.getDuration(), Integer::sum);
-        // VARIANTS:
-//        int result = employees.stream()
-//                .unordered()
-//                .flatMap(e -> e.getJobHistory().stream())
-//                .filter(jh -> "epam".equals(jh.getEmployer()))
-//                .mapToInt(JobHistoryEntry::getDuration)
-//                .sum();
-//        int result = employees.stream()
-//                .unordered()
-//                .flatMap(e -> e.getJobHistory().stream())
-//                .filter(jh -> "epam".equals(jh.getEmployer()))
-//                .collect(Collectors.summingInt(JobHistoryEntry::getDuration));
+        int result = employees.parallelStream()
+                .flatMap(employee -> employee.getJobHistory().stream())
+                .filter(entry -> "epam".equals(entry.getEmployer()))
+                .mapToInt(JobHistoryEntry::getDuration)
+                .sum();
+//                              .reduce(0, (value, entry) -> value + entry.getDuration(), Integer::sum);
+//                              .collect(Collectors.summingInt(JobHistoryEntry::getDuration));
+
         assertEquals(11, result);
     }
 

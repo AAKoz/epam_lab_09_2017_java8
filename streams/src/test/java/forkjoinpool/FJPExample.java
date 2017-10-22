@@ -1,23 +1,28 @@
 package forkjoinpool;
 
-
 import java.util.Arrays;
+import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class FJPExample {
+
+
     public static final int SIZE = 1_000_000;
 
-    // параллелить круто только на маленькие задачи, ForkJoinPool лежит в основе распараллеливание стримов,
-    // работает на основе work stealing
     public static void main(String[] args) {
         int[] arr = new int[SIZE];
         Arrays.fill(arr, 1);
-        Integer res = new ForkJoinPool().invoke(new SumTask(arr, 0, arr.length));
+
+        Integer result = new ForkJoinPool().invoke(new SumTask(arr, 0, arr.length));
+        System.out.println(result);
     }
 
     private static class SumTask extends RecursiveTask<Integer> {
+
         private int[] data;
         private int from;
         private int to;
@@ -42,6 +47,7 @@ public class FJPExample {
 
             ForkJoinTask<Integer> fork1 = left.fork();
             ForkJoinTask<Integer> fork2 = right.fork();
+
             return fork1.join() + fork2.join();
         }
     }
