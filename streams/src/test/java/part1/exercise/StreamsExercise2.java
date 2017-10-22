@@ -180,78 +180,78 @@ public class StreamsExercise2 {
     public void greatestExperiencePerEmployer() {
         Map<String, Person> result = null;// TODO
 
-        Map<String, Person> expected = new HashMap<>();
-        expected.put("epam", new Person("John", "White", 28));
-        expected.put("google", new Person("John", "Galt", 29));
-        expected.put("yandex", new Person("John", "Doe", 30));
-        expected.put("abc", new Person("John", "Doe", 30));
+        Map<String, Set<Person>> expected = new HashMap<>();
+        expected.put("epam", Collections.singleton(new Person("John", "White", 28)));
+        expected.put("google", Collections.singleton(new Person("John", "Galt", 29)));
+        expected.put("yandex", Collections.singleton(new Person("John", "Doe", 30)));
+        expected.put("abc", Collections.singleton(new Person("John", "Doe", 30)));
         assertEquals(expected, result);
     }
 
 
     private List<Employee> getEmployees() {
         return Arrays.asList(
-            new Employee("John", "Galt", 20,
-                    Arrays.asList(
-                            new JobHistoryEntry(3, "dev", "epam"),
-                            new JobHistoryEntry(2, "dev", "google")
-                    )),
-            new Employee("John", "Doe", 21,
-                    Arrays.asList(
-                            new JobHistoryEntry(4, "BA", "yandex"),
-                            new JobHistoryEntry(2, "QA", "epam"),
-                            new JobHistoryEntry(2, "dev", "abc")
-                    )),
-            new Employee("John", "White", 22,
-                    Collections.singletonList(
-                            new JobHistoryEntry(6, "QA", "epam")
-                    )),
-            new Employee("John", "Galt", 23,
-                    Arrays.asList(
-                            new JobHistoryEntry(3, "dev", "epam"),
-                            new JobHistoryEntry(2, "dev", "google")
-                    )),
-            new Employee("John", "Doe", 24,
-                    Arrays.asList(
-                            new JobHistoryEntry(4, "QA", "yandex"),
-                            new JobHistoryEntry(2, "BA", "epam"),
-                            new JobHistoryEntry(2, "dev", "abc")
-                    )),
-            new Employee("John", "White", 25,
-                    Collections.singletonList(
-                            new JobHistoryEntry(6, "QA", "epam")
-                    )),
-            new Employee("John", "Galt", 26,
-                    Arrays.asList(
-                            new JobHistoryEntry(3, "dev", "epam"),
-                            new JobHistoryEntry(1, "dev", "google")
-                    )),
-            new Employee("Bob", "Doe", 27,
-                    Arrays.asList(
-                            new JobHistoryEntry(4, "QA", "yandex"),
-                            new JobHistoryEntry(2, "QA", "epam"),
-                            new JobHistoryEntry(2, "QA", "abc"),
-                            new JobHistoryEntry(2, "dev", "abc")
-                    )),
-            new Employee("John", "White", 28,
-                    Collections.singletonList(
-                            new JobHistoryEntry(8, "BA", "epam")
-                    )),
-            new Employee("John", "Galt", 29,
-                    Arrays.asList(
-                            new JobHistoryEntry(3, "dev", "epam"),
-                            new JobHistoryEntry(3, "dev", "google")
-                    )),
-            new Employee("John", "Doe", 30,
-                    Arrays.asList(
-                            new JobHistoryEntry(5, "QA", "yandex"),
-                            new JobHistoryEntry(2, "QA", "epam"),
-                            new JobHistoryEntry(5, "dev", "abc")
-                    )),
-            new Employee("Bob", "White", 31,
-                    Collections.singletonList(
-                            new JobHistoryEntry(6, "QA", "epam")
-                    ))
+                new Employee("John", "Galt", 20,
+                        Arrays.asList(
+                                new JobHistoryEntry(3, "dev", "epam"),
+                                new JobHistoryEntry(2, "dev", "google")
+                        )),
+                new Employee("John", "Doe", 21,
+                        Arrays.asList(
+                                new JobHistoryEntry(4, "BA", "yandex"),
+                                new JobHistoryEntry(2, "QA", "epam"),
+                                new JobHistoryEntry(2, "dev", "abc")
+                        )),
+                new Employee("John", "White", 22,
+                        Collections.singletonList(
+                                new JobHistoryEntry(6, "QA", "epam")
+                        )),
+                new Employee("John", "Galt", 23,
+                        Arrays.asList(
+                                new JobHistoryEntry(3, "dev", "epam"),
+                                new JobHistoryEntry(2, "dev", "google")
+                        )),
+                new Employee("John", "Doe", 24,
+                        Arrays.asList(
+                                new JobHistoryEntry(4, "QA", "yandex"),
+                                new JobHistoryEntry(2, "BA", "epam"),
+                                new JobHistoryEntry(2, "dev", "abc")
+                        )),
+                new Employee("John", "White", 25,
+                        Collections.singletonList(
+                                new JobHistoryEntry(6, "QA", "epam")
+                        )),
+                new Employee("John", "Galt", 26,
+                        Arrays.asList(
+                                new JobHistoryEntry(3, "dev", "epam"),
+                                new JobHistoryEntry(1, "dev", "google")
+                        )),
+                new Employee("Bob", "Doe", 27,
+                        Arrays.asList(
+                                new JobHistoryEntry(4, "QA", "yandex"),
+                                new JobHistoryEntry(2, "QA", "epam"),
+                                new JobHistoryEntry(2, "QA", "abc"),
+                                new JobHistoryEntry(2, "dev", "abc")
+                        )),
+                new Employee("John", "White", 28,
+                        Collections.singletonList(
+                                new JobHistoryEntry(8, "BA", "epam")
+                        )),
+                new Employee("John", "Galt", 29,
+                        Arrays.asList(
+                                new JobHistoryEntry(3, "dev", "epam"),
+                                new JobHistoryEntry(3, "dev", "google")
+                        )),
+                new Employee("John", "Doe", 30,
+                        Arrays.asList(
+                                new JobHistoryEntry(5, "QA", "yandex"),
+                                new JobHistoryEntry(2, "QA", "epam"),
+                                new JobHistoryEntry(5, "dev", "abc")
+                        )),
+                new Employee("Bob", "White", 31,
+                        Collections.singletonList(
+                                new JobHistoryEntry(6, "QA", "epam")
+                        ))
         );
     }
 

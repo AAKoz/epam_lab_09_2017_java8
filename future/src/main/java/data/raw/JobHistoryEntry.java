@@ -1,6 +1,9 @@
-package data;
+package data.raw;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class JobHistoryEntry {
     private final int duration;
@@ -39,19 +42,34 @@ public class JobHistoryEntry {
 
     @Override
     public String toString() {
-        return String.join(" ", employer, position, String.valueOf(duration));
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("duration", duration)
+                .append("position", position)
+                .append("employer", employer)
+                .toString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
+
         JobHistoryEntry that = (JobHistoryEntry) o;
-        return duration == that.duration && Objects.equals(position, that.position) && Objects.equals(employer, that.employer);
+
+        return new EqualsBuilder()
+                .append(duration, that.duration)
+                .append(position, that.position)
+                .append(employer, that.employer)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(duration, position, employer);
+        return new HashCodeBuilder(17, 37)
+                .append(duration)
+                .append(position)
+                .append(employer)
+                .toHashCode();
     }
 }
