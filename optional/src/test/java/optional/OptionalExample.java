@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,7 +22,7 @@ public class OptionalExample {
 
         o1.orElse("t");
         o1.orElseGet(() -> "t");
-        //o1.orElseThrow(() -> new UnsupportedOperationException());
+        o1.orElseThrow(() -> new UnsupportedOperationException());
     }
 
     @Test
@@ -51,32 +50,51 @@ public class OptionalExample {
         } else {
             actual = Optional.empty();
         }
+
         assertEquals(expected, actual);
     }
 
     @Test
     public void flatMap() {
-        Optional<String> o1 = getOptional();
-        Function<String, Optional<List<Character>>> flatMapperFunction = string -> {
-            Optional<List<Character>> characterList = Optional.of(new ArrayList<Character>());
-            IntStream chars = string.chars();
-            chars.forEach(ch -> characterList.get().add((char) ch));
-            return characterList;
+        Optional<String> optional = getOptional();
+
+        Function<String, Optional<List<Character>>> mapper = str -> {
+            Optional<List<Character>> characters = Optional.of(new ArrayList<Character>());
+
+            for (char ch : str.toCharArray()) {
+                characters.get().add(ch);
+            }
+
+            return characters;
         };
 
-        Optional<List<Character>> expected = o1.flatMap(flatMapperFunction);
-        Optional<List<Character>> actual = (o1.isPresent())? flatMapperFunction.apply(o1.get()) : Optional.empty();
+        Optional<List<Character>> expected = optional.flatMap(mapper);
+        Optional<List<Character>> actual;
+
+        if (optional.isPresent()) {
+            actual = mapper.apply(optional.get());
+        } else {
+            actual = Optional.empty();
+        }
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void filter() {
-        Optional<String> o1 = getOptional();
-        Predicate<String> predicate = str -> str.endsWith("c");
-        Optional<String> expected = o1.filter(predicate);
+        Optional<String> optional = getOptional();
 
-        Optional<String> actual = (o1.isPresent()) ? (predicate.test(o1.get()) ? o1 : Optional.empty()) : Optional.empty();
+        Predicate<String> predicate = str -> str.contains("abc");
+
+        Optional<String> expected = optional.filter(predicate);
+        Optional<String> actual;
+
+        if (optional.isPresent()) {
+            actual = predicate.test(optional.get()) ? optional : Optional.empty();
+        } else {
+            actual = Optional.empty();
+        }
+
         assertEquals(expected, actual);
     }
 
